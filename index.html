@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Felicity Dhol Tasha Attendance</title><link rel="stylesheet" href="css/style.css"></head>
+<body>
+<header><div class="wrap"><h1>🥁 Felicity Dhol Tasha Attendance</h1><p>Attendance register • View for everyone • Marking restricted to Admin</p></div></header>
+<main class="wrap">
+<section id="loginCard" class="card login hidden">
+  <h2>Admin Login</h2><p class="muted">Only the administrator can mark attendance.</p>
+  <div class="field"><label>Admin Email</label><input id="email" type="email" value="admin@felicitydholtasha.com"></div><br>
+  <div class="field"><label>Password</label><input id="password" type="password" autocomplete="current-password"></div><br>
+  <button class="primary" id="loginBtn">Login</button><p id="loginMsg" class="notice hidden"></p>
+</section>
+<section class="card">
+  <div class="publicControls">
+    <div class="field"><label for="dateSelect">Attendance Date</label><input id="dateSelect" type="date" aria-label="Attendance Date"></div>
+    <button id="loginToggle">Admin Login</button>
+  </div>
+
+  <div id="adminPanel" class="adminOnly hidden">
+    <div class="adminControls">
+      <div class="field"><label for="batchSelect">Batch</label><select id="batchSelect" aria-label="Batch"><option value="Batch 1">Batch 1</option><option value="Batch 2">Batch 2</option><option value="Batch 3">Batch 3</option></select></div>
+      <div class="field searchField"><label for="search">Search</label><input id="search" placeholder="Search by Sr.No, Name or Flat No"></div>
+      <button class="danger" id="logoutBtn">Logout</button>
+    </div>
+    <div id="adminNotice" class="notice" style="margin-top:12px">Admin mode enabled. Select a date and batch, then mark members present. Changes are saved in this browser's local storage. Export JSON to publish them.</div>
+    <div class="stats"><div class="stat">Present <b id="presentCount">0</b></div><div class="stat">Total <b id="totalCount">55</b></div><div class="stat">Date <b id="shownDate">—</b></div></div>
+    <div class="actions" style="margin-bottom:14px">
+      <button id="pdfDate" class="secondary">Download PDF — Selected Date &amp; Batch</button>
+      <button id="pdfAll" class="secondary">Download PDF — All Dates</button>
+      <button id="exportJson" class="secondary">Export Attendance JSON</button>
+      <label id="importLabel" class="button secondary">Import Attendance JSON<input id="importJson" type="file" accept="application/json" hidden></label>
+    </div>
+  </div>
+
+  <div id="syncNotice" class="sync publicSync">Select a date to view present members.</div>
+  <div id="publicTableWrap" class="tableWrap"></div>
+  <div id="adminTableWrap" class="tableWrap hidden"></div>
+</section>
+</main><footer>Felicity Dhol Tasha • Static JSON attendance system</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="data.js"></script><script src="js/app.js"></script>
+</body></html>
