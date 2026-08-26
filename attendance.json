@@ -1,5 +1,32 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "dates": {}
+  "updatedAt": "2026-08-25T16:50:57.210Z",
+  "dates": {
+    "2026-08-21__Batch_1": {},
+    "2026-08-25__Batch_1": {
+      "1": true,
+      "2": true,
+      "3": true,
+      "4": true,
+      "5": true,
+      "11": true,
+      "13": true,
+      "14": true,
+      "15": true,
+      "18": true,
+      "22": true,
+      "23": true,
+      "25": true,
+      "26": true,
+      "27": true,
+      "29": true,
+      "31": true,
+      "36": true,
+      "38": true,
+      "40": true,
+      "41": true,
+      "43": true,
+      "47": true
+    }
+  }
 }
