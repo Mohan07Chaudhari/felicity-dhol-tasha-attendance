@@ -2,7 +2,6 @@
   "version": 1,
   "updatedAt": "2026-08-28T02:10:05.800Z",
   "dates": {
-    "2026-08-21__Batch_1": {},
     "2026-08-25__Batch_1": {
       "1": true,
       "2": true,
@@ -70,6 +69,67 @@
       "41": true,
       "47": true,
       "48": true
+    },
+    {
+    "2026-08-28__Batch_1": {
+      "1": true,
+      "3": true,
+      "4": true,
+      "5": true,
+      "8": true,
+      "18": true,
+      "20": true,
+      "21": true,
+      "22": true,
+      "27": true,
+      "29": true,
+      "31": true,
+      "36": true,
+      "38": true,
+      "41": true,
+      "49": true
+    },
+    "2026-08-29__Batch_1": {
+      "2": true,
+      "4": true,
+      "5": true,
+      "8": true,
+      "9": true,
+      "11": true,
+      "17": true,
+      "18": true,
+      "21": true,
+      "22": true,
+      "23": true,
+      "24": true,
+      "26": true,
+      "27": true,
+      "29": true,
+      "31": true,
+      "36": true,
+      "38": true,
+      "40": true,
+      "41": true,
+      "43": true,
+      "44": true,
+      "48": true,
+      "49": true,
+      "52": true
+    },
+    "2026-08-31__Batch_1": {
+      "1": true,
+      "2": true,
+      "5": true,
+      "9": true,
+      "15": true,
+      "27": true,
+      "29": true,
+      "31": true,
+      "41": true,
+      "43": true,
+      "45": true,
+      "48": true,
+      "55": true
     }
   }
 }
