@@ -92,6 +92,34 @@ function rowsForDate(date,batch){return MEMBERS.filter(m=>presentFor(date,batch)
 function pdf(title,rows,headers=['Batch','Sr.No.','Name','Flat No']){const {jsPDF}=window.jspdf;const doc=new jsPDF();doc.setFontSize(16);doc.text(title,14,16);doc.setFontSize(9);let y=25;const widths=headers.length===4?[18,35,85,35]:headers.length===5?[27,22,30,70,35]:[24,20,18,60,35,30];function row(vals){let x=14;vals.forEach((v,i)=>{doc.rect(x,y-5,widths[i],7);doc.text(String(v).slice(0,40),x+2,y);x+=widths[i]});y+=7;if(y>280){doc.addPage();y=18}}row(headers);rows.forEach(row);doc.save(title.replace(/[^a-z0-9]+/gi,'_')+'.pdf');}
 $('pdfDate').onclick=()=>pdf(`Felicity Attendance - ${dateLabel(selectedDate)} - ${selectedBatch}`,rowsForDate(selectedDate,selectedBatch));
 $('pdfAll').onclick=()=>{const rows=[];Object.keys(store.dates).sort().forEach(k=>{const d=dateFromKey(k),batch=batchFromKey(k),attendance=presentFor(d,batch);MEMBERS.forEach(m=>{if(attendance[m.srNo]===true)rows.push([dateLabel(d),batch,String(m.srNo),m.name,m.flatNo])})});pdf('Felicity Dhol Tasha - All Attendance',rows,['Date','Batch','Sr.No.','Name','Flat No']);};
+function attendanceReportRows(){
+ const dates=[...new Set(Object.keys(store.dates||{}).map(dateFromKey).filter(Boolean))].sort();
+ return MEMBERS.map(m=>{
+  let totalPresentDays=0;
+  dates.forEach(d=>{ if(BATCHES.some(batch=>presentFor(d,batch)[m.srNo]===true)) totalPresentDays++; });
+  const pct=dates.length ? (totalPresentDays/dates.length*100) : 0;
+  return [String(m.srNo),m.name,String(totalPresentDays),pct.toFixed(2)+'%'];
+ });
+}
+$('exportReport').onclick=()=>{
+ try{
+  if(!window.jspdf || !window.jspdf.jsPDF){alert('PDF library is not loaded. Please check your internet connection and reload the page.');return;}
+  const {jsPDF}=window.jspdf;
+  const dates=[...new Set(Object.keys(store.dates||{}).map(dateFromKey).filter(Boolean))].sort();
+  const rows=attendanceReportRows();
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const margin=12,pageHeight=doc.internal.pageSize.getHeight();
+  const widths=[20,145,45,50], headers=['Sr. No.','Name','Total Present Days','% of Attendance'];
+  let y=14;
+  doc.setFontSize(16);doc.text('Felicity Dhol Tasha - Attendance Report',margin,y);
+  y+=7;doc.setFontSize(9);doc.text(`Total Attendance Days: ${dates.length}`,margin,y);y+=8;
+  const drawHeader=()=>{let x=margin;headers.forEach((h,i)=>{doc.rect(x,y-5,widths[i],8);doc.text(h,x+2,y);x+=widths[i]});y+=8;};
+  const drawRow=vals=>{if(y+8>pageHeight-12){doc.addPage();y=14;drawHeader();}let x=margin;vals.forEach((v,i)=>{doc.rect(x,y-5,widths[i],8);doc.text(String(v).slice(0,i===1?55:22),x+2,y);x+=widths[i]});y+=8;};
+  drawHeader();rows.forEach(drawRow);
+  doc.save('Felicity_Dhol_Tasha_Attendance_Report.pdf');
+ }catch(err){console.error(err);alert('Unable to export the report: '+err.message);}
+};
 $('exportJson').onclick=()=>{const blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='attendance.json';a.click();URL.revokeObjectURL(a.href);};
+$('downloadWebsiteData').onclick=()=>{saveLocal();const exportStore={...store,updatedAt:new Date().toISOString()};const blob=new Blob([JSON.stringify(exportStore,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='attendance.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1000);alert('Updated website data downloaded as attendance.json. Replace the attendance.json file in your GitHub Pages repository and commit the change to publish the latest attendance.');};
 $('importJson').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{const imported=JSON.parse(await file.text());if(!imported||typeof imported.dates!=='object')throw new Error('Invalid attendance JSON');store=imported;saveLocal();render();alert('Attendance JSON imported successfully.');}catch(err){alert('Import failed: '+err.message)}e.target.value='';};
 loadSource().then(()=>{loadDates();$('batchSelect').value=selectedBatch;updateAdminUI();render();});
