@@ -20,3 +20,8 @@ This is a static website. It uses `attendance.json` as the initial attendance so
 
 ## Static hosting limitation
 A static GitHub Pages site cannot write back to `attendance.json` on the server. Admin changes are saved in browser localStorage. Use **Export Attendance JSON**, then commit/replace `attendance.json` in the GitHub repository to publish changes to all visitors.
+
+
+## Updating attendance on GitHub Pages
+
+After the Admin marks attendance, click **Download Updated Website Data**. This downloads the current `attendance.json` containing only the latest Present records. Replace the existing `attendance.json` in the GitHub repository with the downloaded file and commit the change. GitHub Pages will then publish the updated attendance.

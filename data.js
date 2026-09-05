@@ -1,7 +1,7 @@
 window.MEMBERS = [
   {
     "srNo": 1,
-    "name": "Anuj Deshpande",
+    "name": "Anuj Deshpandea",
     "flatNo": "B1-1002"
   },
   {
